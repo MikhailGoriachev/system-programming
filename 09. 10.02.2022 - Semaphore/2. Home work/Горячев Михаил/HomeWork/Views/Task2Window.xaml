@@ -1,0 +1,304 @@
+﻿<Window x:Class="HomeWork.Views.Task2Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HomeWork.Views"
+        xmlns:models="clr-namespace:HomeWork.Models"
+        xmlns:controllers="clr-namespace:HomeWork.Controllers"
+        mc:Ignorable="d"
+        Title="Задание 2. Корабли" MinHeight="450" MinWidth="1000"
+        Background="#320571" Foreground="White"
+        FontFamily="Verdana" FontSize="14"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+
+    <!--#region Комнады -->
+    <Window.CommandBindings>
+        <CommandBinding Command="models:WindowCommands.Exit"            Executed="Exit_Executed"/>
+        <CommandBinding Command="models:WindowCommands.StartThreads"    Executed="StartThreads_Executed"/>
+    </Window.CommandBindings>
+    <!--#endregion-->
+
+    <!--#region Контекстное меню -->
+    <Window.ContextMenu>
+        <ContextMenu>
+            <!-- Запуск всех потоков -->
+            <MenuItem Command="models:WindowCommands.StartThreads" Height="30" Foreground="Black"/>
+
+            <Separator/>
+
+            <!-- Выход -->
+            <MenuItem Command="models:WindowCommands.Exit" Height="30" Foreground="Black"/>
+        </ContextMenu>
+    </Window.ContextMenu>
+    <!--#endregion -->
+
+    <Grid>
+        <!-- Строки -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+
+        <!--#region Панели управления -->
+
+        <!--#region Меню -->
+        <Menu Background="#8144D6" 
+              Height="35"
+              FontFamily="Verdana"
+              FontSize="14"
+              Foreground="White">
+            <!-- Файл -->
+            <MenuItem Header="Файл" Height="35">
+                <!-- Выход -->
+                <MenuItem Command="models:WindowCommands.Exit" Height="30" Foreground="Black"/>
+            </MenuItem>
+
+            <!-- Потоки -->
+            <MenuItem Header="Потоки" Height="35">
+                <!-- Запуск всех потоков -->
+                <MenuItem Command="models:WindowCommands.StartThreads" Height="30" Foreground="Black"/>
+
+            </MenuItem>
+
+        </Menu>
+        <!--#endregion Меню -->
+
+
+        <!--#region ToolBar -->
+        <ToolBarTray Grid.Row="1"
+                     Background="#976BD6">
+            <ToolBar Height="40" Padding="10 0 0 0"
+                     Background="Transparent"
+                     MinWidth="300"
+                     ToolBarTray.IsLocked="True">
+                <Button Command="models:WindowCommands.StartThreads"
+                        ToolTip="Запуск всех потоков">
+                    <Image Source="../Images/control_play_blue.png"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <!--#endregion ToolBar -->
+
+
+        <!--#region StatusBar -->
+        <StatusBar Grid.Row="3"
+                   Background="#976BD6">
+
+        </StatusBar>
+        <!--#endregion StatusBar -->
+
+        <!--#endregion Панели управления-->
+
+        <!--#region Контент окна -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--#region Производитель -->
+            <GroupBox Header="Порт" Grid.Row="0" Grid.Column="0"
+                      Margin="10">
+                <StackPanel Margin="15">
+                    <TextBox Name="TbxLoadingCount" 
+                             Background="Transparent" Foreground="White"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             Text="Очередь на погрузку: "
+                             Margin="0 0 0 10"/>
+                    
+                    <TextBox Name="TbxUnloadingCount" 
+                             Background="Transparent" Foreground="White"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             Text="Очередь на выгрузку: "
+                             Margin="0 0 0 10"/>
+                    
+                    <TextBox Name="TbxCountContainer" 
+                             Background="Transparent" Foreground="White"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             Text="Загруженность порта: "/>
+                </StackPanel>
+            </GroupBox>
+            <!--#endregion-->
+
+            <!--#region Потребитель (обработчик) -->
+            <GroupBox Header="Потребитель (обработчик)" Grid.Row="0" Grid.Column="1"
+                      Grid.RowSpan="2"
+                      Margin="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Вывод чисел -->
+                    <Grid Grid.Column="1">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Заголовок столбца -->
+                        <TextBox Background="Transparent" Foreground="White"
+                                 IsReadOnly="True"
+                                 BorderThickness="0"
+                                 Margin="10"
+                                 Text="Очередь на выгрузку"
+                                 HorizontalContentAlignment="Center"/>
+
+                        <!-- Очередь на выгрузку -->
+                        <DataGrid Name="DgdUnloading" Grid.Column="0" Grid.Row="1"
+                                  Background="#FF6E12A5"
+                                  RowBackground="#FF6E12A5"
+                                  Margin="10"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeRows="False"
+                                  ColumnWidth="*"
+                                  SelectionMode="Single"
+                                  GridLinesVisibility="Horizontal"
+                                  BorderBrush="Black"
+                                  BorderThickness="2"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                
+                                <!-- ID -->
+                                <DataGridTemplateColumn Header="ID">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=Id}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Загружено -->
+                                <DataGridTemplateColumn Header="Загружено">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=Count}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <!-- Емкость -->
+                                <DataGridTemplateColumn Header="Емкость">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=Capacity}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Статус -->
+                                <DataGridTemplateColumn Header="Статус">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=State}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                        <!-- Заголовок столбца -->
+                        <TextBox Background="Transparent" Foreground="White"
+                                 IsReadOnly="True" Grid.Column="1"
+                                 BorderThickness="0"
+                                 Margin="10"
+                                 Text="Очередь на погрузку"
+                                 HorizontalContentAlignment="Center"/>
+
+                        <!-- Очередь на погрузку -->
+                        <DataGrid Name="DgdLoading" Grid.Column="1" Grid.Row="1"
+                                  Background="#FF6E12A5"
+                                  RowBackground="#FF6E12A5"
+                                  Margin="10"
+                                  AutoGenerateColumns="False"
+                                  CanUserResizeRows="False"
+                                  ColumnWidth="*"
+                                  SelectionMode="Single"
+                                  GridLinesVisibility="Horizontal"
+                                  BorderBrush="Black"
+                                  BorderThickness="2"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+
+                                <!-- ID -->
+                                <DataGridTemplateColumn Header="ID">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=Id}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Загружено -->
+                                <DataGridTemplateColumn Header="Загружено">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=Count}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Емкость -->
+                                <DataGridTemplateColumn Header="Емкость">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=Capacity}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- Статус -->
+                                <DataGridTemplateColumn Header="Статус">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Path=State}"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <!--#endregion-->
+
+        </Grid>
+        <!--#endregion Контент окна -->
+    </Grid>
+</Window>

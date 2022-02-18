@@ -1,0 +1,71 @@
+﻿<Window x:Class="HomeWork.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HomeWork"
+        mc:Ignorable="d"
+        Title="Домашнее задание на 14.02.2022" SizeToContent="Height" Width="400"
+        WindowStartupLocation="CenterScreen"
+        Background="#320571" Foreground="White"
+        FontSize="16" FontFamily="Verdana"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical">
+            <!-- Заголовок -->
+            <Label Name="LblHeader" Grid.Row="0"
+                   Height="40"
+                   Content="Главное меню"
+                   FontSize="18"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   Background="#8144D6"
+                   Foreground="White"/>
+
+
+            <!--#region Пункты меню -->
+
+            <!-- Задание 1. Список сотрудников -->
+            <Button Height="40"
+                    Margin="15 30 15 0"
+                    Background="#FF6E12A5"
+                    Foreground="White"
+                    Content="Задание 1. Числа"
+                    Click="Task1_Click"/>
+
+            <!-- Задание 2. Учет подписок -->
+            <Button Height="40"
+                    Margin="15 30 15 0"
+                    Background="#FF6E12A5"
+                    Foreground="White"
+                    Content="Задание 2. Корабли"
+                    Click="Task2_Click"/>
+
+            <!-- О программе -->
+            <Button Height="40"
+                    Margin="15 80 15 0"
+                    Background="#FF6E12A5"
+                    Foreground="White"
+                    Content="О программе"
+                    Click="Info_Click"/>
+
+            <!-- Выход -->
+            <Button Height="40"
+                    Margin="15 20 15 20"
+                    Background="#FF6E12A5"
+                    Foreground="White"
+                    Content="Выход"
+                    Click="Exit_Click"/>
+
+            <!--#endregion-->
+        </StackPanel>
+
+        <!-- Статус бар -->
+        <ToolBarTray Grid.Row="1"
+                     Background="#8144D6"/>
+    </Grid>
+</Window>
